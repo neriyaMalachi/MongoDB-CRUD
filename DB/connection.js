@@ -1,9 +1,13 @@
 import { MongoClient } from "mongodb";
 
+let client;
+let db;
+
 export async function connectMongo({ uri, dbName }) {
-  const client = new MongoClient(uri);
+  if (db) return db; // return connection
+  client = new MongoClient(uri);
   await client.connect();
-  const db = client.db(dbName);
+  db = client.db(dbName);
   console.log("MongoDB connected:", db.databaseName);
   return db;
 }
